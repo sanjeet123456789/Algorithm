@@ -2,7 +2,7 @@ package java_practice.Merge_sort;
 
 public class Merge_sort {
 	public static void main(String[] args) {
-		int arr[]= {45,784,8,49,7,999};
+		int arr[]= {45,784,8,49,7,999,89};
 		MergeSort m=new MergeSort();
 		m.display(arr);
 		m.sort(arr, 0, arr.length-1);

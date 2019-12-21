@@ -98,7 +98,7 @@ public class Linked_list02 {
 		System.out.println(node.next.data+"delete in mid");
 		node.next=current.next;
 //		node.next=null;
-		
+	
 		
 		
 	}

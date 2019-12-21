@@ -1,72 +1,110 @@
 package java_practice.Linked_list;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java_practice.Linked_list.Node;
 
-
-
-public class Testing {
-	public static void main(String[] args) {
-		System.out.println("merge sorting");
-		binary_sorting b=new binary_sorting();
-		int arr[]= {1,2,3,4,5,6,7,89,72,100,123,70};
-		b.dispaly(arr);
-		b.merging(arr, 0,arr.length-1);
-		b.dispaly(arr);
-		
+class Node{
+	int data;
+	Node left;
+	Node right;
 	
 	
-	} 	
 }
 
-class binary_sorting{
-	void merging(int  arr[],int first,int last) {
-		if(first<last) {
-			int pi=pivot_selection(arr,first,last);
-			merging(arr, first, pi-1);
-			merging(arr, pi+1, last);
-			
-			
-		}
-		
-		
+class BST{
+	public Node createNode(Node node,int d) {
+		Node new_node=new Node();
+		new_node.data=d;
+		new_node.left=null;
+		new_node.right=null;
+		return new_node;
 	}
 	
+	public Node insertNode(Node node,int val) {
+		if(node==null) {
+			
+			return createNode(node,val);
+		}if(val>node.data) {
+			node.right=createNode(node.right,val);
+		}else if(val<node.data) {
+			node.left=createNode(node.left,val);
+		}
 		
-		
-		
-		
-	private int pivot_selection(int[] arr, int first, int last) {
-		int pivot=arr[last];
-		 int pointer=first-1;
-		for(int i=first;i<last;i++) {
-			if(arr[i]<pivot ) {
-				pointer++;
-				//
-				int temp= arr[pointer];
-				arr[pointer]=arr[i];
-				arr[i]=temp;
+		return node;
+	}
+	
+	public Node delete(Node node,int val) {
+		if(node==null) {
+			return null;
+		}if(val>node.data) {
+			node.right=delete(node.right,val);
+		}else if(val<node.data) {
+			node.left=delete(node.left,val);
+		}else {
+			if(node.left==null || node.right==null) {
+				Node temp=null;
+				temp=node.left==null?node.right:node.left;
+				if(temp==null) {
+					return null;
+				}else {
+					return node;
+				}
+			}else {
+				Node successor=getSuccessor(node);
+				node.data=successor.data;
+				node.right=delete(node.right,4);
+				return node;
+				
 			}
 		}
-		//
-		int temp=arr[last];
-		arr[last]=arr[pointer+1];
-		arr[pointer+1]=temp;
-		return pointer+1;
+		return node;
 	}
-
-
-
-
-
-
-
-	void dispaly(int arr[]) {
-		for(int i=0;i<arr.length;i++) {
-			System.out.println(arr[i]);
+	public Node getSuccessor(Node node) {
+		if(node==null) {
+			return null;
+		}else {
+			return node.right;
 		}
+		
 	}
+	public boolean findnode(Node node,int val) {
+		boolean flag=false;
+		if(node==null) {
+			return false;
+		}
+		while(node!=null) {
+			if(val>node.data){
+				node=node.right;
+			}else if(val<node.data) {
+				node=node.left;
+			}else {
+				flag=true;
+				return flag;
+			}
+		}
+		
+		
+		return flag;
+	}
+	
 }
 
 
+
+public class Testing{
+	public static void main(String[] args) {
+		BST ax=new BST();
+		Node root=null;
+		root=ax.insertNode(root,8);
+		root=ax.insertNode(root,3);
+		root=ax.insertNode(root,6);
+		root=ax.insertNode(root,10);
+		
+		root=ax.insertNode(root,4);
+		root=ax.insertNode(root,7);
+		root=ax.insertNode(root,1);
+		root=ax.insertNode(root,14);
+		root=ax.insertNode(root,13);
+		System.out.println(ax.findnode(root,1));
+		
+	}
+}

@@ -9,7 +9,7 @@ public class Binary_Search {
 		System.out.println("linked list");
 		int[] arr_list= {1,2,3,4,5,6,7,8,9,10,11,12};
 		System.out.println(arr_list.length);
-		binarySearchlist(arr_list,74,0,arr_list.length-1);
+		binarySearchlist(arr_list,10,0,arr_list.length-1);
 		
 	}
 
