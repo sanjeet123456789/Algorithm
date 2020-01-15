@@ -184,6 +184,8 @@ class Node{
 		return node!=null?inorderParentNode:null;
 	}
 	
+	///getting inorsersuccessor not understand
+	
 	public Node getInOrderSuccessor(Node node,int val) {
 		if(node==null) {
 			return null;
@@ -758,12 +760,12 @@ class Node{
 				return true;
 			}
 			if(x.left!=null) {
-				q.add(node.left);
+				q.add(x.left);
 			}
 			if(x.right!=null) {
-				q.add(node.right);
+				q.add(x.right);
 			}
-			return false;
+			
 		}
 		return false;
 	}
@@ -1113,6 +1115,46 @@ class Node{
 		sumRootToLeaf(node.right, i*10+node.data);
 		
 	}
+	
+	public Node deleteNode(Node node,int data) {
+		if(node==null) {
+			return node;
+		}
+		if(data<node.data) {
+//			node=node.left;
+			node.left=deleteNode(node.left, data);
+		}else if(data>node.data) {
+//			node=node.right;
+			node.right=deleteNode(node.right, data);
+		}else {
+			if(node.left==null&&node.right==null) {
+				System.out.println("deleting"+data);
+				return null;
+			}
+			else if(node.left==null) {
+				System.out.println("deleting"+data);
+				node=node.right;
+				return node;
+			}else if(node.right==null) {
+				System.out.println("deleting"+data);
+				node=node.left;
+				return node;
+			}else {
+				Integer minValue=minValue(node.right);
+				node.data=minValue;
+				node.right=deleteNode(node.right, data);
+				System.out.println("deleting node"+data);
+			}
+			
+		}
+		return node;
+	}
+	private int minValue(Node node) {
+		if(node.left!=null) {
+			return minValue(node.left);
+		}
+		return node.data;
+	}
 }
  
  public class BinaryTree{
@@ -1175,14 +1217,14 @@ class Node{
 		
 		//inorder successor
 		
-		/* Node inorderSuccessor=ax.getInOrderSuccessor(root,3);
+		 Node inorderSuccessor=ax.getInOrderSuccessor(root,3);
 		
 		if(inorderSuccessor!=null) {
 			System.out.println(inorderSuccessor.data);
 			
 		}else {
 			System.out.println("inorderSuccessor doesn't exist..");
-		}*/ 
+		}
 		
 		
 		//  get a difference of even and odd

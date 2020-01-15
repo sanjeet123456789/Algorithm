@@ -1,110 +1,60 @@
 package java_practice.Linked_list;
 
-import java_practice.Linked_list.Node;
-
-class Node{
-	int data;
-	Node left;
-	Node right;
-	
-	
-}
-
-class BST{
-	public Node createNode(Node node,int d) {
-		Node new_node=new Node();
-		new_node.data=d;
-		new_node.left=null;
-		new_node.right=null;
-		return new_node;
-	}
-	
-	public Node insertNode(Node node,int val) {
-		if(node==null) {
-			
-			return createNode(node,val);
-		}if(val>node.data) {
-			node.right=createNode(node.right,val);
-		}else if(val<node.data) {
-			node.left=createNode(node.left,val);
-		}
-		
-		return node;
-	}
-	
-	public Node delete(Node node,int val) {
-		if(node==null) {
-			return null;
-		}if(val>node.data) {
-			node.right=delete(node.right,val);
-		}else if(val<node.data) {
-			node.left=delete(node.left,val);
-		}else {
-			if(node.left==null || node.right==null) {
-				Node temp=null;
-				temp=node.left==null?node.right:node.left;
-				if(temp==null) {
-					return null;
-				}else {
-					return node;
-				}
-			}else {
-				Node successor=getSuccessor(node);
-				node.data=successor.data;
-				node.right=delete(node.right,4);
-				return node;
-				
-			}
-		}
-		return node;
-	}
-	public Node getSuccessor(Node node) {
-		if(node==null) {
-			return null;
-		}else {
-			return node.right;
-		}
-		
-	}
-	public boolean findnode(Node node,int val) {
-		boolean flag=false;
-		if(node==null) {
-			return false;
-		}
-		while(node!=null) {
-			if(val>node.data){
-				node=node.right;
-			}else if(val<node.data) {
-				node=node.left;
-			}else {
-				flag=true;
-				return flag;
-			}
-		}
-		
-		
-		return flag;
-	}
-	
-}
-
-
 
 public class Testing{
+	
+	
+	private final int V=9;
+	
+	public int shortDistance(int dist[],Boolean set[]) {
+		int min=Integer.MAX_VALUE;
+		int min_integer=-1;
+		for(int i=0;i<V;i++) {
+			if(set[i]==false&&dist[i]<=min) {
+				min=dist[i];
+				min_integer=i;
+			}
+		}
+		return min_integer;
+	}
+	public void dikstra(int graph[][],int src) {
+		int dist[]=new int[V];
+		Boolean[] set=new Boolean[V];
+		for(int i=0;i<V;i++) {
+			dist[i]=Integer.MAX_VALUE;
+			set[i]=false;
+		}
+		dist[src]=0;
+		for(int i=0;i<V-1;i++) {
+			int u=shortDistance(dist,set);
+			set[u]=true;
+			for(int j=0;j<V;j++) {
+				if(!set[j]&&dist[u]!=Integer.MAX_VALUE&&graph[u][j]!=0&&dist[u]+graph[u][j]<dist[j]) {
+					dist[j]=dist[u]+graph[u][j];
+				}
+			}
+		}
+		
+		printarr(dist);
+	}
+	public void printarr(int dist[]) {
+		for(int i=0;i<V;i++) {
+			System.out.println(i+" "+dist[i]);
+		}
+	}
 	public static void main(String[] args) {
-		BST ax=new BST();
-		Node root=null;
-		root=ax.insertNode(root,8);
-		root=ax.insertNode(root,3);
-		root=ax.insertNode(root,6);
-		root=ax.insertNode(root,10);
+		int graph[][]= {{0,4,0,0,0,0,0,8,0},
+				{4,0,8,0,0,0,0,11,0},
+				{0,8,0,7,0,4,0,0,2},
+				{0,0,7,0,9,14,0,0,0},
+				{0,0,0,9,0,10,0,0,0},
+				{0,0,4,14,10,0,2,0,0},
+				{0,0,0,0,0,2,0,1,6},
+				{8,11,0,0,0,0,1,0,7},
+				{0,0,2,0,0,0,6,7,0}};
 		
-		root=ax.insertNode(root,4);
-		root=ax.insertNode(root,7);
-		root=ax.insertNode(root,1);
-		root=ax.insertNode(root,14);
-		root=ax.insertNode(root,13);
-		System.out.println(ax.findnode(root,1));
 		
+		Testing test=new Testing();
+		test.dikstra(graph,0);
 	}
 }
